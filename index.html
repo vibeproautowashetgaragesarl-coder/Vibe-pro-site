@@ -2,214 +2,507 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vibe Pro Auto Wash & Garage SARL : lavage automobile, mécanique, diagnostic et nettoyage professionnel à Ouagadougou.">
-  <title>Vibe Pro | Auto Wash & Garage</title>
-  <style>
-    :root {
-      --navy: #07172f;
-      --gold: #d6ad55;
-      --white: #ffffff;
-      --light: #f5f6f8;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Vibe Pro Auto Wash & Garage SARL - Lavage automobile, mécanique, diagnostic électronique et nettoyage professionnel à Ouagadougou.">
+<title>Vibe Pro | Auto Wash & Garage SARL</title>
 
-    * { box-sizing: border-box; }
+<style>
+:root {
+  --navy: #08182f;
+  --navy-light: #122b4c;
+  --gold: #d6ad55;
+  --white: #ffffff;
+  --light: #f5f6f8;
+  --text: #263247;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      color: #182338;
-      background: var(--white);
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    header {
-      background: var(--navy);
-      color: white;
-      padding: 18px 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
+html {
+  scroll-behavior: smooth;
+}
 
-    .logo {
-      font-size: 23px;
-      font-weight: bold;
-      color: var(--gold);
-    }
+body {
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background: white;
+  line-height: 1.6;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 8px;
-      font-size: 14px;
-    }
+header {
+  background: var(--navy);
+  color: white;
+  padding: 17px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
 
-    .hero {
-      background: linear-gradient(120deg, #07172f, #18365d);
-      color: white;
-      text-align: center;
-      padding: 85px 20px;
-    }
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
 
-    .hero h1 {
-      font-size: clamp(30px, 6vw, 48px);
-      margin: 0 0 18px;
-    }
+.logo small {
+  display: block;
+  font-size: 9px;
+  color: white;
+  letter-spacing: 3px;
+}
 
-    .hero h1 span { color: var(--gold); }
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
 
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      line-height: 1.7;
-      color: #e1e7f0;
-    }
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .btn {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 14px 24px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 5px;
-    }
+nav a:hover {
+  color: var(--gold);
+}
 
-    section { padding: 55px 7%; }
+.hero {
+  min-height: 520px;
+  padding: 85px 7%;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 80% 30%, #28466b 0%, transparent 35%),
+    linear-gradient(120deg, #07162b, #173354);
+  color: white;
+}
 
-    .section-title {
-      text-align: center;
-      color: var(--navy);
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
+.hero-content {
+  max-width: 750px;
+}
 
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
+.hero-label {
+  color: var(--gold);
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
 
-    .service {
-      background: var(--light);
-      padding: 25px;
-      border-radius: 9px;
-      border-bottom: 3px solid var(--gold);
-    }
+.hero h1 {
+  font-size: clamp(35px, 6vw, 62px);
+  line-height: 1.15;
+  margin-bottom: 22px;
+}
 
-    .service h3 { color: var(--navy); }
+.hero h1 span {
+  color: var(--gold);
+}
 
-    .service p {
-      line-height: 1.6;
-      color: #596477;
-    }
+.hero p {
+  max-width: 600px;
+  color: #dce5f0;
+  font-size: 17px;
+  margin-bottom: 30px;
+}
 
-    .about {
-      background: var(--light);
-      text-align: center;
-      line-height: 1.8;
-    }
+.btn {
+  display: inline-block;
+  padding: 14px 24px;
+  margin: 5px;
+  border-radius: 5px;
+  background: var(--gold);
+  color: var(--navy);
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
 
-    .contact {
-      background: var(--navy);
-      color: white;
-      text-align: center;
-    }
+.btn:hover {
+  background: white;
+  transform: translateY(-3px);
+}
 
-    .contact h2 { color: var(--gold); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: white;
+}
 
-    footer {
-      background: #041020;
-      color: #cbd2df;
-      text-align: center;
-      padding: 22px;
-      font-size: 13px;
-    }
+section {
+  padding: 75px 7%;
+}
 
-    @media (max-width: 600px) {
-      header { justify-content: center; }
-      nav { text-align: center; }
-      nav a { display: inline-block; padding: 5px; }
-      .hero { padding: 65px 18px; }
-    }
-  </style>
+.section-heading {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-heading span {
+  color: #b58b35;
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 12px;
+}
+
+.section-heading h2 {
+  color: var(--navy);
+  font-size: clamp(27px, 4vw, 38px);
+  margin-top: 8px;
+}
+
+.section-heading p {
+  max-width: 650px;
+  margin: 10px auto;
+  color: #687386;
+}
+
+.services {
+  background: var(--light);
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.service-card {
+  background: white;
+  padding: 28px 23px;
+  border-radius: 9px;
+  border-bottom: 3px solid var(--gold);
+  box-shadow: 0 5px 20px rgba(8,24,47,0.06);
+  transition: 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+}
+
+.service-icon {
+  font-size: 35px;
+  margin-bottom: 15px;
+}
+
+.service-card h3 {
+  color: var(--navy);
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.service-card p {
+  color: #687386;
+  font-size: 14px;
+}
+
+.about {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 40px;
+  align-items: center;
+}
+
+.about-panel {
+  background: var(--navy);
+  color: white;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.about-panel strong {
+  display: block;
+  color: var(--gold);
+  font-size: 25px;
+  margin-bottom: 12px;
+}
+
+.about-text h2 {
+  color: var(--navy);
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.about-text p {
+  color: #687386;
+  margin-bottom: 15px;
+}
+
+.contact {
+  background: var(--navy);
+  color: white;
+  text-align: center;
+}
+
+.contact .section-heading h2 {
+  color: white;
+}
+
+.contact .section-heading p {
+  color: #dce5f0;
+}
+
+.contact-details {
+  max-width: 650px;
+  margin: auto;
+  line-height: 2.2;
+}
+
+.contact-details strong {
+  color: var(--gold);
+}
+
+footer {
+  background: #041020;
+  color: #cbd2df;
+  text-align: center;
+  padding: 25px 15px;
+  font-size: 13px;
+}
+
+.whatsapp {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 10;
+  background: #25d366;
+  color: white;
+  text-decoration: none;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 29px;
+  box-shadow: 0 4px 15px #0004;
+}
+
+@media(max-width: 650px) {
+  header {
+    justify-content: center;
+    text-align: center;
+  }
+
+  nav {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero {
+    min-height: 450px;
+    padding: 65px 7%;
+    text-align: center;
+  }
+
+  .hero-content {
+    margin: auto;
+  }
+
+  section {
+    padding: 55px 6%;
+  }
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">VIBE PRO</div>
+  <div class="logo">
+    VIBE PRO
+    <small>AUTO WASH & GARAGE SARL</small>
+  </div>
+
   <nav>
-    <a href="#accueil">Accueil</a>
-    <a href="#services">Services</a>
-    <a href="#apropos">À propos</a>
-    <a href="#contact">Contact</a>
+    <a href="#accueil">ACCUEIL</a>
+    <a href="#services">SERVICES</a>
+    <a href="#apropos">À PROPOS</a>
+    <a href="#contact">CONTACT</a>
   </nav>
 </header>
 
 <main>
-  <section class="hero" id="accueil">
-    <h1>Bienvenue chez <span>Vibe Pro</span></h1>
+
+<section class="hero" id="accueil">
+  <div class="hero-content">
+    <div class="hero-label">EXCELLENCE • QUALITÉ • CONFIANCE</div>
+
+    <h1>
+      Votre satisfaction,
+      <span>notre priorité.</span>
+    </h1>
+
     <p>
-      Auto Wash & Garage SARL : lavage automobile,
-      mécanique, diagnostic électronique et nettoyage
-      professionnel à Ouagadougou.
+      Bienvenue chez Vibe Pro Auto Wash & Garage SARL.
+      Des solutions professionnelles pour vos véhicules,
+      vos espaces et vos besoins d'entretien.
     </p>
-    <a class="btn" href="#services">Découvrir nos services</a>
-    <a class="btn" href="https://wa.me/22666354907">Nous contacter</a>
-  </section>
 
-  <section id="services">
-    <h2 class="section-title">Nos services</h2>
-    <div class="services">
-      <article class="service">
-        <h3>🚘 Lavage auto et moto</h3>
-        <p>Lavage professionnel à notre garage ou à domicile.</p>
-      </article>
-      <article class="service">
-        <h3>🔧 Mécanique générale</h3>
-        <p>Entretien et réparation de vos véhicules.</p>
-      </article>
-      <article class="service">
-        <h3>🔍 Diagnostic électronique</h3>
-        <p>Recherche des pannes et contrôle électronique.</p>
-      </article>
-      <article class="service">
-        <h3>🏢 Nettoyage professionnel</h3>
-        <p>Nettoyage de maisons, bureaux et immeubles.</p>
-      </article>
-      <article class="service">
-        <h3>🛒 Produits et accessoires</h3>
-        <p>Vente de produits et accessoires automobiles.</p>
-      </article>
-    </div>
-  </section>
+    <a class="btn" href="#services">DÉCOUVRIR NOS SERVICES</a>
+    <a class="btn btn-outline"
+       href="https://wa.me/22666354907">
+       NOUS CONTACTER
+    </a>
+  </div>
+</section>
 
-  <section class="about" id="apropos">
-    <h2 class="section-title">À propos de Vibe Pro</h2>
+<section class="services" id="services">
+  <div class="section-heading">
+    <span>NOTRE SAVOIR-FAIRE</span>
+    <h2>Nos services</h2>
     <p>
-      Vibe Pro Auto Wash & Garage SARL met son savoir-faire
-      au service des particuliers et des professionnels.
-      Notre ambition : qualité, confiance et satisfaction.
+      Des prestations adaptées aux particuliers,
+      aux entreprises et aux professionnels.
     </p>
-    <strong>« Avec nous, vos désirs sont des ordres. »</strong>
-  </section>
+  </div>
 
-  <section class="contact" id="contact">
-    <h2>Contactez-nous</h2>
-    <p>Somgandé, vers la météo, Ouagadougou – Burkina Faso</p>
-    <p>Téléphone : 66 35 49 07 / 61 93 24 24</p>
-    <p>Email : vibeproautowashetgaragesarl@gmail.com</p>
-    <a class="btn" href="https://wa.me/22666354907">Écrire sur WhatsApp</a>
-  </section>
+  <div class="service-grid">
+
+    <article class="service-card">
+      <div class="service-icon">🚘</div>
+      <h3>Lavage automobile</h3>
+      <p>
+        Lavage intérieur et extérieur, nettoyage
+        approfondi et entretien de véhicules.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <div class="service-icon">🏍️</div>
+      <h3>Lavage moto</h3>
+      <p>
+        Nettoyage et entretien professionnel
+        des motos et autres deux-roues.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3>Mécanique générale</h3>
+      <p>
+        Entretien, réparation et maintenance
+        automobile et moto.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <div class="service-icon">🔍</div>
+      <h3>Diagnostic électronique</h3>
+      <p>
+        Identification des anomalies et
+        contrôle électronique des véhicules.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <div class="service-icon">🏢</div>
+      <h3>Nettoyage professionnel</h3>
+      <p>
+        Nettoyage de maisons, bureaux,
+        immeubles et espaces professionnels.
+      </p>
+    </article>
+
+    <article class="service-card">
+      <div class="service-icon">🛒</div>
+      <h3>Produits et accessoires</h3>
+      <p>
+        Vente de produits d'entretien
+        et d'accessoires automobiles.
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<section class="about" id="apropos">
+
+  <div class="about-panel">
+    <strong>VIBE PRO</strong>
+    <h3>Votre partenaire de confiance</h3>
+    <p>
+      Des services professionnels,
+      un engagement permanent pour la qualité.
+    </p>
+  </div>
+
+  <div class="about-text">
+    <h2>À propos de notre entreprise</h2>
+
+    <p>
+      Vibe Pro Auto Wash & Garage SARL est une
+      entreprise basée à Somgandé, Ouagadougou,
+      au Burkina Faso.
+    </p>
+
+    <p>
+      Nous proposons des services de lavage,
+      de mécanique, de diagnostic électronique,
+      de nettoyage professionnel et de vente
+      de produits et accessoires automobiles.
+    </p>
+
+    <p>
+      Notre ambition est d'offrir des prestations
+      fiables, professionnelles et accessibles.
+    </p>
+
+    <strong>
+      « Avec nous, vos désirs sont des ordres. »
+    </strong>
+  </div>
+
+</section>
+
+<section class="contact" id="contact">
+
+  <div class="section-heading">
+    <span>RESTONS EN CONTACT</span>
+    <h2>Contactez Vibe Pro</h2>
+    <p>
+      Notre équipe est disponible pour répondre
+      à vos demandes et vous accompagner.
+    </p>
+  </div>
+
+  <div class="contact-details">
+    <p><strong>Adresse :</strong> Somgandé, vers la météo, Ouagadougou, Burkina Faso</p>
+    <p><strong>Téléphones :</strong> 66 35 49 07 / 61 93 24 24</p>
+    <p><strong>Email :</strong> vibeproautowashetgaragesarl@gmail.com</p>
+
+    <a class="btn"
+       href="https://wa.me/22666354907">
+       ÉCRIRE SUR WHATSAPP
+    </a>
+  </div>
+
+</section>
+
 </main>
 
 <footer>
-  © 2026 Vibe Pro Auto Wash & Garage SARL. Tous droits réservés.
+  <p>© 2026 Vibe Pro Auto Wash & Garage SARL</p>
+  <p>Ouagadougou, Burkina Faso</p>
+  <p>Avec nous, vos désirs sont des ordres.</p>
 </footer>
+
+<a class="whatsapp"
+   href="https://wa.me/22666354907"
+   aria-label="Contacter Vibe Pro sur WhatsApp">
+   ☎
+</a>
 
 </body>
 </html>
