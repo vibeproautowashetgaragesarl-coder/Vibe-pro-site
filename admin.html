@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration | Vibe Pro</title>
+<style>
+body{margin:0;background:#f3f5f8;font-family:Arial,sans-serif;color:#08182f}
+header{background:#08182f;color:white;padding:22px;text-align:center}
+header span{color:#d5ad55}
+main{max-width:900px;margin:25px auto;padding:15px}
+.card{background:white;padding:20px;margin:15px 0;border-radius:10px;box-shadow:0 3px 12px #00000010}
+input{box-sizing:border-box;width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:5px}
+button{padding:11px 15px;border:0;border-radius:5px;background:#08182f;color:white;margin:5px;cursor:pointer}
+button.refus{background:#a52a2a}
+button.confirm{background:#16834b}
+.hidden{display:none}
+.small{color:#687386;font-size:14px}
+#message{margin:12px 0;color:#a52a2a}
+</style>
+</head>
+<body>
+
+<header>
+<h1>VIBE <span>PRO</span></h1>
+<p>ESPACE ADMINISTRATEUR</p>
+</header>
+
+<main>
+<div class="card" id="connexion">
+<h2>Connexion administrateur</h2>
+<form id="loginForm">
+<input id="email" type="email" placeholder="Adresse e-mail" required>
+<input id="password" type="password" placeholder="Mot de passe" required>
+<button type="submit">SE CONNECTER</button>
+</form>
+<p id="message"></p>
+</div>
+
+<div id="dashboard" class="hidden">
+<div class="card">
+<h2>Tableau de bord</h2>
+<p>Gestion des réservations du site Vibe Pro</p>
+<button id="logout">DÉCONNEXION</button>
+</div>
+<h2>Réservations reçues</h2>
+<div id="reservations">Chargement...</div>
+</div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+ getAuth,
+ signInWithEmailAndPassword,
+ onAuthStateChanged,
+ signOut
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+ getFirestore,
+ collection,
+ onSnapshot,
+ doc,
+ updateDoc,
+ serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyDvunHAzr8kPkr47-cOGq_Lpe9xjofewUA",
+ authDomain: "vibe-pro-mobile-c1291.firebaseapp.com",
+ projectId: "vibe-pro-mobile-c1291",
+ storageBucket: "vibe-pro-mobile-c1291.firebasestorage.app",
+ messagingSenderId: "875205867187",
+ appId: "1:875205867187:web:77c219a81d152ed03062c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const ADMIN_UID = "XYNQbvoFuDclpbVWFhxPOLnFYKu1";
+
+const connexion = document.getElementById("connexion");
+const dashboard = document.getElementById("dashboard");
+const message = document.getElementById("message");
+const reservations = document.getElementById("reservations");
+
+document.getElementById("loginForm").addEventListener("submit", async e => {
+ e.preventDefault();
+ message.textContent = "Connexion en cours...";
+ try {
+  await signInWithEmailAndPassword(
+   auth,
+   document.getElementById("email").value,
+   document.getElementById("password").value
+  );
+ } catch(error) {
+  message.textContent = "Connexion impossible. Vérifiez vos identifiants.";
+ }
+});
+
+onAuthStateChanged(auth, async user => {
+ if (!user) {
+  connexion.classList.remove("hidden");
+  dashboard.classList.add("hidden");
+  return;
+ }
+
+ if (user.uid !== ADMIN_UID) {
+  await signOut(auth);
+  message.textContent = "Accès refusé : compte non administrateur.";
+  return;
+ }
+
+ connexion.classList.add("hidden");
+ dashboard.classList.remove("hidden");
+ afficherReservations();
+});
+
+function afficherReservations() {
+ onSnapshot(collection(db, "reservations_site"), snapshot => {
+  reservations.replaceChildren();
+
+  if (snapshot.empty) {
+   reservations.textContent = "Aucune réservation pour le moment.";
+   return;
+  }
+
+  const documents = snapshot.docs.sort((a,b) => {
+   const da = a.data().dateCreation?.toMillis?.() || 0;
+   const dbDate = b.data().dateCreation?.toMillis?.() || 0;
+   return dbDate - da;
+  });
+
+  documents.forEach(element => {
+   const r = element.data();
+   const carte = document.createElement("div");
+   carte.className = "card";
+
+   function ajouterTexte(texte, important=false) {
+    const p = document.createElement(important ? "h3" : "p");
+    p.textContent = texte;
+    carte.appendChild(p);
+   }
+
+   ajouterTexte(r.nom || "Client");
+   ajouterTexte("Téléphone : " + (r.telephone || ""));
+   ajouterTexte("Service : " + (r.service || ""));
+   ajouterTexte("Date : " + (r.date || ""));
+   ajouterTexte("Heure : " + (r.heure || ""));
+   ajouterTexte("Précisions : " + (r.message || "Aucune"));
+   ajouterTexte("Statut : " + (r.statut || "En attente"), true);
+
+   const confirmer = document.createElement("button");
+   confirmer.className = "confirm";
+   confirmer.textContent = "CONFIRMER";
+
+   confirmer.onclick = async () => {
+    await updateDoc(doc(db, "reservations_site", element.id), {
+     statut: "Confirmée",
+     dateTraitement: serverTimestamp()
+    });
+   };
+
+   const refuser = document.createElement("button");
+   refuser.className = "refus";
+   refuser.textContent = "REFUSER";
+
+   refuser.onclick = async () => {
+    await updateDoc(doc(db, "reservations_site", element.id), {
+     statut: "Refusée",
+     dateTraitement: serverTimestamp()
+    });
+   };
+
+   carte.appendChild(confirmer);
+   carte.appendChild(refuser);
+   reservations.appendChild(carte);
+  });
+
+ }, error => {
+  reservations.textContent = "Erreur de chargement des réservations.";
+ });
+}
+
+document.getElementById("logout").onclick = () => signOut(auth);
+</script>
+</body>
+</html>
