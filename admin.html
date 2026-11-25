@@ -187,6 +187,28 @@ function afficherReservations() {
 
    ajouterTexte(r.nom || "Client");
    ajouterTexte("Téléphone : " + (r.telephone || ""));
+const appeler = document.createElement("button");
+appeler.textContent = "APPELER LE CLIENT";
+appeler.onclick = () => {
+  window.location.href = "tel:" + r.telephone;
+};
+carte.appendChild(appeler);
+const whatsapp = document.createElement("button");
+whatsapp.style.background = "#16834b";
+whatsapp.textContent = "CONTACTER SUR WHATSAPP";
+
+whatsapp.onclick = () => {
+  const numero = (r.telephone || "").replace(/\D/g, "");
+  const url = "https://wa.me/226" + numero +
+    "?text=" + encodeURIComponent(
+      "Bonjour " + (r.nom || "") +
+      ", nous vous contactons concernant votre réservation chez Vibe Pro."
+    );
+
+  window.open(url, "_blank");
+};
+
+carte.appendChild(whatsapp);
    ajouterTexte("Service : " + (r.service || ""));
    ajouterTexte("Date : " + (r.date || ""));
    ajouterTexte("Heure : " + (r.heure || ""));
