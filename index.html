@@ -525,25 +525,88 @@ footer {
   </div>
 </section>
 
-<script>
-document.getElementById("reservationForm").addEventListener("submit", function(e) {
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+import { 
+  getAuth, 
+  signInAnonymously 
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDvunHAzr8kPkr47-cOGq_Lpe9xjofewUA",
+  authDomain: "vibe-pro-mobile-c1291.firebaseapp.com",
+  projectId: "vibe-pro-mobile-c1291",
+  storageBucket: "vibe-pro-mobile-c1291.firebasestorage.app",
+  messagingSenderId: "875205867187",
+  appId: "1:875205867187:web:77c219a81d152ed03062c6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+document.getElementById("reservationForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const f = this;
 
-  const message =
-    "Bonjour Vibe Pro, je souhaite prendre rendez-vous.\n\n" +
-    "Nom : " + f.nom.value + "\n" +
-    "Téléphone : " + f.telephone.value + "\n" +
-    "Service : " + f.service.value + "\n" +
-    "Date : " + f.date.value + "\n" +
-    "Heure : " + f.heure.value + "\n" +
-    "Précisions : " + f.message.value;
+  const whatsappWindow = window.open("about:blank", "_blank");
 
-  const url = "https://wa.me/22666354907?text=" +
-    encodeURIComponent(message);
+  try {
+    const utilisateur = await signInAnonymously(auth);
 
-  window.open(url, "_blank");
+    const reservation = {
+      uid: utilisateur.user.uid,
+      nom: f.elements["nom"].value.trim(),
+      telephone: f.elements["telephone"].value.trim(),
+      service: f.elements["service"].value,
+      date: f.elements["date"].value,
+      heure: f.elements["heure"].value,
+      message: f.elements["message"].value.trim(),
+      statut: "En attente",
+      dateCreation: serverTimestamp()
+    };
+
+    await addDoc(collection(db, "reservations_site"), reservation);
+
+    const message =
+      "Bonjour Vibe Pro, je souhaite prendre rendez-vous.\n\n" +
+      "Nom : " + reservation.nom + "\n" +
+      "Téléphone : " + reservation.telephone + "\n" +
+      "Service : " + reservation.service + "\n" +
+      "Date : " + reservation.date + "\n" +
+      "Heure : " + reservation.heure + "\n" +
+      "Précisions : " + reservation.message;
+
+    const url = "https://wa.me/22666354907?text=" +
+      encodeURIComponent(message);
+
+    if (whatsappWindow) {
+      whatsappWindow.location.href = url;
+    } else {
+      window.location.href = url;
+    }
+
+    alert("Votre réservation a été enregistrée avec succès !");
+
+    f.reset();
+
+  } catch (error) {
+    if (whatsappWindow) whatsappWindow.close();
+
+    console.error("Erreur de réservation :", error);
+
+    alert("Impossible d'enregistrer votre réservation. Veuillez réessayer.");
+  }
 });
 </script>
 
