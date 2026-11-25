@@ -466,6 +466,87 @@ footer {
 
 </section>
 
+<section id="reservation" style="background:#f5f6f8;padding:60px 7%;text-align:center;">
+
+  <div style="max-width:650px;margin:auto;">
+    <span style="color:#b58b35;font-weight:bold;letter-spacing:3px;">
+      RÉSERVATION EN LIGNE
+    </span>
+
+    <h2 style="color:#08182f;font-size:30px;margin:12px 0;">
+      Prenez rendez-vous avec Vibe Pro
+    </h2>
+
+    <p style="color:#687386;margin-bottom:25px;">
+      Remplissez le formulaire et envoyez votre demande à notre équipe.
+    </p>
+
+    <form id="reservationForm"
+      style="background:white;padding:25px;border-radius:10px;text-align:left;box-shadow:0 5px 20px #08182f12;">
+
+      <label>Nom complet</label>
+      <input name="nom" type="text" required placeholder="Votre nom complet"
+        style="width:100%;padding:13px;margin:7px 0 17px;border:1px solid #ddd;border-radius:5px;">
+
+      <label>Téléphone</label>
+      <input name="telephone" type="tel" required placeholder="Votre numéro de téléphone"
+        style="width:100%;padding:13px;margin:7px 0 17px;border:1px solid #ddd;border-radius:5px;">
+
+      <label>Service souhaité</label>
+      <select name="service" required
+        style="width:100%;padding:13px;margin:7px 0 17px;border:1px solid #ddd;border-radius:5px;">
+        <option value="">Choisir un service</option>
+        <option>Lavage automobile</option>
+        <option>Lavage moto</option>
+        <option>Mécanique générale</option>
+        <option>Diagnostic électronique</option>
+        <option>Nettoyage professionnel</option>
+        <option>Produits et accessoires</option>
+      </select>
+
+      <label>Date souhaitée</label>
+      <input name="date" type="date" required
+        style="width:100%;padding:13px;margin:7px 0 17px;border:1px solid #ddd;border-radius:5px;">
+
+      <label>Heure souhaitée</label>
+      <input name="heure" type="time" required
+        style="width:100%;padding:13px;margin:7px 0 17px;border:1px solid #ddd;border-radius:5px;">
+
+      <label>Précisions sur votre demande</label>
+      <textarea name="message" rows="4" placeholder="Décrivez votre besoin..."
+        style="width:100%;padding:13px;margin:7px 0 20px;border:1px solid #ddd;border-radius:5px;"></textarea>
+
+      <button type="submit"
+        style="width:100%;padding:15px;background:#08182f;color:white;border:0;border-radius:5px;font-weight:bold;font-size:15px;">
+        ENVOYER MA DEMANDE
+      </button>
+
+    </form>
+  </div>
+</section>
+
+<script>
+document.getElementById("reservationForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const f = this;
+
+  const message =
+    "Bonjour Vibe Pro, je souhaite prendre rendez-vous.\n\n" +
+    "Nom : " + f.nom.value + "\n" +
+    "Téléphone : " + f.telephone.value + "\n" +
+    "Service : " + f.service.value + "\n" +
+    "Date : " + f.date.value + "\n" +
+    "Heure : " + f.heure.value + "\n" +
+    "Précisions : " + f.message.value;
+
+  const url = "https://wa.me/22666354907?text=" +
+    encodeURIComponent(message);
+
+  window.open(url, "_blank");
+});
+</script>
+
 <section class="contact" id="contact">
 
   <div class="section-heading">
