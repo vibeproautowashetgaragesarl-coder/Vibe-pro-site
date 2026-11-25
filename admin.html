@@ -44,6 +44,33 @@ button.confirm{background:#16834b}
 <p>Gestion des réservations du site Vibe Pro</p>
 <button id="logout">DÉCONNEXION</button>
 </div>
+<div class="card">
+  <h2>STATISTIQUES DES RÉSERVATIONS</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+
+    <div style="background:#edf2f8;padding:18px;border-radius:8px;text-align:center;">
+      <h2 id="totalReservations">0</h2>
+      <p>Total</p>
+    </div>
+
+    <div style="background:#fff3d9;padding:18px;border-radius:8px;text-align:center;">
+      <h2 id="enAttente">0</h2>
+      <p>En attente</p>
+    </div>
+
+    <div style="background:#e3f5e9;padding:18px;border-radius:8px;text-align:center;">
+      <h2 id="confirmees">0</h2>
+      <p>Confirmées</p>
+    </div>
+
+    <div style="background:#fbe8e8;padding:18px;border-radius:8px;text-align:center;">
+      <h2 id="refusees">0</h2>
+      <p>Refusées</p>
+    </div>
+
+  </div>
+</div>
 <h2>Réservations reçues</h2>
 <div id="reservations">Chargement...</div>
 </div>
@@ -120,6 +147,20 @@ onAuthStateChanged(auth, async user => {
 
 function afficherReservations() {
  onSnapshot(collection(db, "reservations_site"), snapshot => {
+
+  const liste = snapshot.docs.map(element => element.data());
+
+  document.getElementById("totalReservations").textContent = liste.length;
+
+  document.getElementById("enAttente").textContent =
+    liste.filter(r => r.statut === "En attente").length;
+
+  document.getElementById("confirmees").textContent =
+    liste.filter(r => r.statut === "Confirmée").length;
+
+  document.getElementById("refusees").textContent =
+    liste.filter(r => r.statut === "Refusée").length;
+
   reservations.replaceChildren();
 
   if (snapshot.empty) {
