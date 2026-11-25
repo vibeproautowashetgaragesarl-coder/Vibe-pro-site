@@ -72,6 +72,16 @@ button.confirm{background:#16834b}
   </div>
 </div>
 <h2>Réservations reçues</h2>
+<div class="card">
+  <h3>FILTRER LES RÉSERVATIONS</h3>
+
+  <select id="filtreStatut" style="width:100%;padding:12px;border-radius:6px;">
+    <option value="Toutes">Toutes les réservations</option>
+    <option value="En attente">En attente</option>
+    <option value="Confirmée">Confirmées</option>
+    <option value="Refusée">Refusées</option>
+  </select>
+</div>
 <div id="reservations">Chargement...</div>
 </div>
 </main>
@@ -145,6 +155,20 @@ onAuthStateChanged(auth, async user => {
  afficherReservations();
 });
 
+let filtreActuel = "Toutes";
+let dernierSnapshot = null;
+let arreterEcoute = null;
+
+document.getElementById("filtreStatut").addEventListener("change", function() {
+  filtreActuel = this.value;
+
+  Array.from(reservations.children).forEach(carte => {
+    carte.style.display =
+      filtreActuel === "Toutes" || carte.dataset.statut === filtreActuel
+        ? ""
+        : "none";
+  });
+});
 function afficherReservations() {
  onSnapshot(collection(db, "reservations_site"), snapshot => {
 
@@ -178,6 +202,11 @@ function afficherReservations() {
    const r = element.data();
    const carte = document.createElement("div");
    carte.className = "card";
+carte.dataset.statut = r.statut || "En attente";
+carte.style.display =
+  filtreActuel === "Toutes" || carte.dataset.statut === filtreActuel
+    ? ""
+    : "none";
 
    function ajouterTexte(texte, important=false) {
     const p = document.createElement(important ? "h3" : "p");
